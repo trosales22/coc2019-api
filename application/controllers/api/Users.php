@@ -1,7 +1,6 @@
 <?php
-header('Access-Control-Allow-Origin: *');
 require APPPATH . 'libraries/REST_Controller.php';
-     
+
 class Users extends REST_Controller {
 	public function __construct() {
 		parent::__construct();
@@ -9,7 +8,7 @@ class Users extends REST_Controller {
 		$this->load->model('api/Users_model', 'users_model');
 	}
 	
-	public function user_login_post() {
+	public function login_customer_post() {
 		$inputs = array(
 			'username_or_email' => $this->post('username_or_email'),
 			'password' 			=> $this->post('password')
@@ -98,6 +97,69 @@ class Users extends REST_Controller {
 			];
 		}
 	  
+		$this->response($response);
+	}
+
+	public function register_customer_post(){
+		try{
+			$success       	= 0;
+			$username 		= trim($this->input->post('username'));
+			$firstname 		= trim($this->input->post('firstname'));
+			$lastname 		= trim($this->input->post('lastname'));
+			$email 			= trim($this->input->post('email'));
+			$contact_number = trim($this->input->post('contact_number'));
+			$gender			= trim($this->input->post('gender'));
+			$password 		= trim($this->input->post('password'));
+
+			if(EMPTY($username))
+				throw new Exception("Username is required.");
+
+			if(EMPTY($firstname))
+				throw new Exception("Firstname is required.");
+			
+			if(EMPTY($lastname))
+				throw new Exception("Lastname is required.");
+
+			if(EMPTY($email))
+				throw new Exception("Email is required.");
+
+			if(EMPTY($contact_number))
+				throw new Exception("Contact Number is required.");
+
+			if(EMPTY($gender))
+				throw new Exception("Gender is required.");
+
+			if(EMPTY($password))
+				throw new Exception("Password is required.");
+
+			$customer_fields =   array(
+				'username'				=> $username,
+				'firstname'     		=> $firstname,
+				'lastname'       		=> $lastname,
+				'email'       			=> $email,
+				'contact_number'  		=> $contact_number,
+				'gender'       			=> $gender,
+				'password'				=> $password
+			);
+			
+			$this->users_model->register_customer($customer_fields);
+			$success  = 1;
+		}catch (Exception $e){
+			$msg = $e->getMessage();      
+		}
+
+		if($success == 1){
+			$response = [
+				'msg'       => 'Customer registered successfully.',
+				'flag'		=> $success
+			];
+		}else{
+			$response = [
+				'msg'       => $msg,
+				'flag'      => $success
+			];
+		}
+		
 		$this->response($response);
 	}
 }

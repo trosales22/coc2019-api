@@ -62,4 +62,26 @@ class Users_model extends CI_Model {
 		$stmt = $this->db->query($query, $params);
 		return $stmt->result();
 	}
+
+	public function register_customer(array $customer_params){
+		$customer_fields = array(
+			'username'			=> $customer_params['username'],
+			'firstname' 		=> $customer_params['firstname'],
+			'lastname' 			=> $customer_params['lastname'],
+			'email' 			=> $customer_params['email'],
+			'contact_number' 	=> $customer_params['contact_number'],
+			'gender' 			=> $customer_params['gender'],
+			'password' 			=> password_hash($customer_params['password'], PASSWORD_BCRYPT),
+		);
+		
+		$this->db->insert('users', $customer_fields);
+		$lastInsertedId = $this->db->insert_id();
+		
+		$user_role_fields = array(
+			'user_id'	=> $lastInsertedId,
+			'role_code'	=> 'CUSTOMER'
+		);
+
+		$this->db->insert('user_roles', $user_role_fields);
+	}
 }
