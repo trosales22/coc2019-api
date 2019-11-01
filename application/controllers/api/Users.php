@@ -26,7 +26,7 @@ class Users extends REST_Controller {
 			if(EMPTY($password))
 				throw new Exception("Password is required.");
 
-			$result = $this->users_model->get_user_information($inputs['username_or_email']);
+			$result = $this->users_model->get_user_information($inputs['username_or_email'], $inputs['username_or_email']);
 
 			if(empty($result)){
 				throw new Exception("User not found!");
@@ -97,7 +97,7 @@ class Users extends REST_Controller {
 			if(EMPTY($username_email))
         		throw new Exception("Username/email is required.");
 
-			$personal_info = $this->users_model->get_user_information($username_email);
+			$personal_info = $this->users_model->get_user_information($username_email, $username_email);
 			$success  = 1;
 		}catch (Exception $e){
 			$msg = $e->getMessage();      
@@ -154,6 +154,12 @@ class Users extends REST_Controller {
 			if(EMPTY($password))
 				throw new Exception("Password is required.");
 
+			$does_customer_exist = $this->users_model->get_user_information($username, $email);
+
+			if(!empty($does_customer_exist)){
+				throw new Exception("User exists. Please try again!");
+			}
+			
 			$customer_fields =   array(
 				'username'				=> $username,
 				'firstname'     		=> $firstname,

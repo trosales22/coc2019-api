@@ -31,8 +31,8 @@ class Users_model extends CI_Model {
 		return $stmt->num_rows();
 	}
 
-	public function get_user_information($username_or_email){
-		$params = array($username_or_email, $username_or_email, 'Y');
+	public function get_user_information($username = NULL, $email = NULL){
+		$params = array($username, $email, 'Y');
 		$query = "
 			SELECT 
 				A.user_id, A.username, A.firstname, A.lastname, 
