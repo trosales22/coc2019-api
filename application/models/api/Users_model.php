@@ -36,11 +36,13 @@ class Users_model extends CI_Model {
 		$query = "
 			SELECT 
 				A.user_id, A.username, A.firstname, A.lastname, 
-				A.email,A.gender, A.password, B.role_code
+				A.email,A.gender, A.password, B.role_code, C.role_name
 			FROM 
 				users A
 			LEFT JOIN 
-				user_roles B ON A.user_id = B.user_id
+				user_roles B ON A.user_id = B.user_id 
+			LEFT JOIN 
+				param_roles C ON B.role_code = C.role_code 
 			WHERE 
 				A.username = ? OR A.email = ? AND A.active_flag = ?
 			";

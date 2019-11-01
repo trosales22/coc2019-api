@@ -9,62 +9,84 @@ class Users extends REST_Controller {
 	}
 	
 	public function login_customer_post() {
-		$inputs = array(
-			'username_or_email' => $this->post('username_or_email'),
-			'password' 			=> $this->post('password')
-		);
-
-		$res = array();
-		$result = $this->users_model->get_user_information($inputs['username_or_email']);
-
-		if(empty($result)){
-			$res = array(
-				'status' 	=> 'UNKNOWN_USER',
-				'msg'		=> 'User not found!'
+		try{
+			$success       	= 0;
+			$res 			= array();
+			$username_email = trim($this->post('username_or_email'));
+			$password 		= trim($this->post('password'));
+			
+			$inputs = array(
+				'username_or_email' => $username_email,
+				'password' 			=> $password
 			);
-		}else{
-			if(password_verify($inputs['password'], $result[0]->password)){
-				$fields = array(
-					'username_or_email' => $inputs['username_or_email'],
-					'password' 			=> $result[0]->password
-				);
-				
-				$count = $this->users_model->login_user($fields);
-	
-				if($count == 1){
-					$user_role_res = $this->users_model->get_user_role($result[0]->user_id);
+
+			if(EMPTY($username_email))
+				throw new Exception("Username or email is required.");
+
+			if(EMPTY($password))
+				throw new Exception("Password is required.");
+
+			$result = $this->users_model->get_user_information($inputs['username_or_email']);
+
+			if(empty($result)){
+				throw new Exception("User not found!");
+			}else{
+				if(password_verify($inputs['password'], $result[0]->password)){
+					$fields = array(
+						'username_or_email' => $inputs['username_or_email'],
+						'password' 			=> $result[0]->password
+					);
 					
-					if($user_role_res[0]->role_code == 'SUPER_ADMIN'){
-						$res = array(
-							'status' => 'INVALID_ROLE', 
-							'msg' => 'Super Admin is not allowed to login!'
-						);
-					}else{
+					$count = $this->users_model->login_user($fields);
+		
+					if($count == 1){
+						$user_role_res = $this->users_model->get_user_role($result[0]->user_id);
+						
 						$session_data = array(
-							'status'		=> 'OK',
 							'user_id'		=> $result[0]->user_id,
 							'username' 		=> $result[0]->username,
 							'email' 		=> $result[0]->email,
-							'role_code'		=> $result[0]->role_code
+							'role_code'		=> $result[0]->role_code,
+							'role_caption'	=> $result[0]->role_name
 						);
 						
 						$res = $session_data;
+
+						// if($user_role_res[0]->role_code == 'SUPER_ADMIN'){
+						// 	$res = array(
+						// 		'status' => 'INVALID_ROLE', 
+						// 		'msg' => 'Super Admin is not allowed to login!'
+						// 	);
+						// }else{
+							
+						// }
+					}else{
+						throw new Exception("Invalid username or password!");
 					}
 				}else{
-					$res = array(
-						'status' 	=> 'INVALID_LOGIN',
-						'msg'		=> 'Invalid username or password!'
-					);
+					throw new Exception("Password does not match.");
 				}
-			}else{
-				$res = array(
-					'status' 	=> 'PASSWORD_MISMATCH',
-					'msg'		=> 'Password does not match!'
-				);
 			}
+
+			$success  = 1;
+		}catch (Exception $e){
+			$msg = $e->getMessage();      
 		}
 
-		$this->response($res);
+		if($success == 1){
+			$response = [
+				'msg'       	=> 'Customer logged in successfully.',
+				'user_details' 	=> $res,
+				'flag'			=> $success
+			];
+		}else{
+			$response = [
+				'msg'       => $msg,
+				'flag'      => $success
+			];
+		}
+
+		$this->response($response);
 	}
 
 	public function get_personal_info_get(){
