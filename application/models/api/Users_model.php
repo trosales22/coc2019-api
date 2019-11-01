@@ -36,7 +36,7 @@ class Users_model extends CI_Model {
 		$query = "
 			SELECT 
 				A.user_id, A.username, A.firstname, A.lastname, 
-				A.email,A.gender, A.password, B.role_code, C.role_name
+				A.email, A.gender, A.password, B.role_code, C.role_name
 			FROM 
 				users A
 			LEFT JOIN 

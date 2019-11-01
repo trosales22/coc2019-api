@@ -46,6 +46,9 @@ class Users extends REST_Controller {
 							'user_id'		=> $result[0]->user_id,
 							'username' 		=> $result[0]->username,
 							'email' 		=> $result[0]->email,
+							'firstname'		=> $result[0]->firstname,
+							'lastname'		=> $result[0]->lastname,
+							'gender'		=> $result[0]->gender,
 							'role_code'		=> $result[0]->role_code,
 							'role_caption'	=> $result[0]->role_name
 						);
