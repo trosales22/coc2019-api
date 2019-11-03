@@ -3,7 +3,8 @@
 ## Tools
 
 -PHP CodeIgniter<br>
--RESTful<br>
+-MySQL<br>
+-RESTful API<br>
 
 ## Server Requirements
 
