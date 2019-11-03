@@ -66,24 +66,29 @@ class Users_model extends CI_Model {
 	}
 
 	public function register_customer(array $customer_params){
-		$customer_fields = array(
-			'username'			=> $customer_params['username'],
-			'firstname' 		=> $customer_params['firstname'],
-			'lastname' 			=> $customer_params['lastname'],
-			'email' 			=> $customer_params['email'],
-			'contact_number' 	=> $customer_params['contact_number'],
-			'gender' 			=> $customer_params['gender'],
-			'password' 			=> password_hash($customer_params['password'], PASSWORD_BCRYPT),
-		);
-		
-		$this->db->insert('users', $customer_fields);
-		$lastInsertedId = $this->db->insert_id();
-		
-		$user_role_fields = array(
-			'user_id'	=> $lastInsertedId,
-			'role_code'	=> 'CUSTOMER'
-		);
+		try{
+			$customer_fields = array(
+				'username'			=> $customer_params['username'],
+				'firstname' 		=> $customer_params['firstname'],
+				'lastname' 			=> $customer_params['lastname'],
+				'email' 			=> $customer_params['email'],
+				'contact_number' 	=> $customer_params['contact_number'],
+				'gender' 			=> $customer_params['gender'],
+				'password' 			=> password_hash($customer_params['password'], PASSWORD_BCRYPT),
+			);
+			
+			$this->db->insert('users', $customer_fields);
+			$lastInsertedId = $this->db->insert_id();
+			
+			$user_role_fields = array(
+				'user_id'	=> $lastInsertedId,
+				'role_code'	=> 'CUSTOMER'
+			);
 
-		$this->db->insert('user_roles', $user_role_fields);
+			$this->db->insert('user_roles', $user_role_fields);
+		}catch(PDOException $e){
+			$msg = $e->getMessage();
+			$this->db->trans_rollback();
+		}
 	}
 }
