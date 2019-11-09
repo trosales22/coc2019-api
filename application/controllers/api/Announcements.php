@@ -7,4 +7,76 @@ class Announcements extends REST_Controller {
 		$this->load->database();
 		$this->load->model('api/Announcements_model', 'announcements_model');
 	}
+	
+	public function get_announcements_get(){
+		try{
+			$success        = 0;
+			$announcement_id		= trim($this->get('announcement_id'));
+			$announcement_caption 	= trim($this->get('announcement_caption'));
+
+			$announcement_params = array(
+				'announcement_id'		=> $announcement_id,
+				'announcement_caption' 	=> $announcement_caption
+			);
+			
+			$announcements_list = $this->announcements_model->get_announcements($announcement_params);
+			$success  = 1;
+		}catch (Exception $e){
+			$msg = $e->getMessage();      
+		}
+
+		if($success == 1){
+			$response = [
+			  'announcements_list' => $announcements_list
+			];
+		}else{
+			$response = [
+				'msg'       => $msg,
+				'flag'      => $success
+			];
+		}
+	  
+		$this->response($response);
+	}
+
+	public function add_announcement_post(){
+		try{
+			$success  = 0;
+			$msg = array();
+			$announcement_params = array(
+				'announcement_caption'	=> trim($this->input->post('announcement_caption')),
+				'announcement_details'	=> trim($this->input->post('announcement_details')),
+				'announcement_link'		=> trim($this->input->post('announcement_link')),
+				'created_by'			=> trim($this->input->post('created_by'))
+			);
+
+			if(EMPTY($announcement_params['announcement_caption']))
+				throw new Exception("Announcement Caption is required.");
+			
+			if(EMPTY($announcement_params['announcement_details']))
+				throw new Exception("Announcement Details is required.");
+
+			if(EMPTY($announcement_params['created_by']))
+				throw new Exception("Creator is required.");
+
+			$this->announcements_model->add_announcement($announcement_params);
+			$success  = 1;
+		}catch (Exception $e){
+			$msg = $e->getMessage();      
+		}
+
+		if($success == 1){
+			$response = [
+				'msg'       => 'Announcement was successfully added!',
+				'flag'      => $success
+			];
+		}else{
+			$response = [
+				'msg'       => $msg,
+				'flag'      => $success
+			];
+		}
+
+		$this->response($response);
+	}
 }
