@@ -75,10 +75,17 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
+
+	// 'hostname' => 'localhost',
+	// 'username' => 'root',
+	// 'password' => '',
+	// 'database' => 'coc_db',
+
 	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'coc_db',
+	'username' => 'u191444882_coc_admin',
+	'password' => 'cochack90',
+	'database' => 'u191444882_clash_of_codes',
+
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
