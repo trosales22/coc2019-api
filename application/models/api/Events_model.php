@@ -1,6 +1,6 @@
 <?php
 class Events_model extends CI_Model {
-	public function get_events(array $event_params){
+	public function get_events(array $event_params = NULL){
 		$where_condition = '';
 
 		if(!empty($event_params['event_id'])){

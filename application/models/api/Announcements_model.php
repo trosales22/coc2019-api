@@ -1,6 +1,6 @@
 <?php
 class Announcements_model extends CI_Model {
-	public function get_announcements(array $announcement_params){
+	public function get_announcements(array $announcement_params = NULL){
 		$where_condition = '';
 
 		if(!empty($announcement_params['announcement_id'])){

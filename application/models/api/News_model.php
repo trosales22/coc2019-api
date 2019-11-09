@@ -1,6 +1,6 @@
 <?php
 class News_model extends CI_Model {
-	public function get_news(array $news_params){
+	public function get_news(array $news_params = NULL){
 		$where_condition = '';
 
 		if(!empty($news_params['news_id'])){
