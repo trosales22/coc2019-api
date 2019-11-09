@@ -43,11 +43,13 @@ class Announcements extends REST_Controller {
 		try{
 			$success  = 0;
 			$msg = array();
+			$session_data = $this->session->userdata('logged_in');
+
 			$announcement_params = array(
 				'announcement_caption'	=> trim($this->input->post('announcement_caption')),
 				'announcement_details'	=> trim($this->input->post('announcement_details')),
 				'announcement_link'		=> trim($this->input->post('announcement_link')),
-				'created_by'			=> trim($this->input->post('created_by'))
+				'created_by'       		=> $session_data['user_id']
 			);
 
 			if(EMPTY($announcement_params['announcement_caption']))

@@ -53,7 +53,7 @@
 
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <a class="btnAddProduct btn btn-danger btn-icon-split" href="#" data-toggle="modal" data-target="#addProductModal">
+              <a class="btnAddProduct btn btn-danger btn-icon-split" href="#" data-toggle="modal" data-target="#addEventModal">
                 <span class="icon text-white-50">
                   <i class="fas fa-plus-circle"></i>
                 </span>
@@ -62,7 +62,7 @@
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-bordered" id="tbl_products" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="tbl_events" width="100%" cellspacing="0">
                   <thead>
                     <tr>
                       <th>Name</th>
@@ -128,7 +128,7 @@
 
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <a class="btnAddOrder btn btn-danger btn-icon-split" href="#" data-toggle="modal" data-target="#addOrderModal">
+              <a class="btnAddAnnouncement btn btn-danger btn-icon-split" href="#" data-toggle="modal" data-target="#addAnnouncementModal">
                 <span class="icon text-white-50">
                   <i class="fas fa-plus-circle"></i>
                 </span>
@@ -137,7 +137,7 @@
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-bordered" id="tbl_orders" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="tbl_announcements" width="100%" cellspacing="0">
                   <thead>
                     <tr>
                       <th>Caption</th>
@@ -212,7 +212,7 @@
 
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <a class="btnAddOrder btn btn-danger btn-icon-split" href="#" data-toggle="modal" data-target="#addOrderModal">
+              <a class="btnAddNews btn btn-danger btn-icon-split" href="#" data-toggle="modal" data-target="#addNewsModal">
                 <span class="icon text-white-50">
                   <i class="fas fa-plus-circle"></i>
                 </span>
@@ -221,7 +221,7 @@
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-bordered" id="tbl_orders" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="tbl_news" width="100%" cellspacing="0">
                   <thead>
                     <tr>
                       <th>Caption</th>
@@ -302,11 +302,11 @@
     <i class="fas fa-angle-up"></i>
 	</a>
 	
-	<?php include 'pages/modals/add_product.php';?>
+	<?php include 'pages/modals/add_event.php';?>
 
-	<?php include 'pages/modals/edit_product.php';?>
+	<?php include 'pages/modals/add_news.php';?>
 	
-	<?php include 'pages/modals/add_order.php';?>
+	<?php include 'pages/modals/add_announcement.php';?>
 	
 	<?php include 'pages/modals/logout.php';?>
 	

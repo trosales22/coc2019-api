@@ -44,13 +44,15 @@ class Events extends REST_Controller {
 			$success  = 0;
 			$msg = array();
 			$event_image_output = array();
-
+			$session_data = $this->session->userdata('logged_in');
+			
 			$event_fields =   array(
 				'event_name'     	=> trim($this->input->post('event_name')),
 				'event_details'     => trim($this->input->post('event_details')),
 				'event_venue'   	=> trim($this->input->post('event_venue')),
 				'event_schedule'    => trim($this->input->post('event_schedule')),
-				'created_by'       	=> trim($this->input->post('created_by'))
+				'event_fee'			=> trim($this->input->post('event_fee')),
+				'created_by'       	=> $session_data['user_id']
 			);
 
 			if(EMPTY($event_fields['event_name']))
@@ -64,6 +66,9 @@ class Events extends REST_Controller {
 
 			if(EMPTY($event_fields['event_schedule']))
 				throw new Exception("Event Schedule is required.");
+			
+			if(EMPTY($event_fields['event_fee']))
+				throw new Exception("Event Fee is required.");
 
 			if(EMPTY($event_fields['created_by']))
 				throw new Exception("Creator is required.");

@@ -9,7 +9,7 @@ class Payment extends REST_Controller {
 		$this->load->database();
 		$this->load->model('api/Payment_model', 'payment_model');
 	}
-	
+
 	private function _generatePIN($digits = 8) {
 		$i = 0; //counter
 		$pin = ""; //our default pin is blank.
@@ -48,9 +48,10 @@ class Payment extends REST_Controller {
 				throw new Exception("Digest is required.");
 
 			$trans_params = json_encode(array(
-				"amount"  	=> $amount,
-				"txnid" 	=> $txn_id,
-				"digest" 	=> $digest
+				"amount"  		=> $amount,
+				"txnid" 		=> $txn_id,
+				"digest" 		=> $digest,
+				"callback_url"	=> 'https://coc-hackathon.netlify.com/' 
 			));
 
 			curl_setopt_array($curl, array(

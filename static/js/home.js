@@ -11,26 +11,26 @@ $(function() {
 		return url;
 	}
 
-	$('#tbl_products').DataTable();
-	$('#tbl_orders').DataTable();
-	$('#inputProductAmount').maskMoney();
-	$('#inputProductQuantity').maskMoney({precision: 0});
-	$('#inputOrderQuantity').maskMoney({precision: 0});
+	$('#tbl_events').DataTable();
+	$('#tbl_announcements').DataTable();
+	$('#tbl_news').DataTable();
 
-	$('#edit_inputProductAmount').maskMoney();
-	$('#edit_inputProductQuantity').maskMoney({precision: 0});
+	$('#inputEventFee').maskMoney();
 
-	function addProduct(){
-		$("#frmAddProduct").submit(function(e) {
+	function addEvent(){
+		$("#frmAddEvent").submit(function(e) {
 			//prevent Default functionality
 			e.preventDefault();
+			var formAction = e.currentTarget.action;
+			var formData = new FormData(this);
+			var formType = "POST";
 			
 			//get the action-url of the form
 			var actionUrl = e.currentTarget.action;
 			
 			$.confirm({
 				title: 'Confirmation!',
-				content: 'Are you sure you want to add this product?',
+				content: 'Are you sure you want to add this event?',
 				useBootstrap: false, 
 				theme: 'supervan',
 				buttons: {
@@ -40,10 +40,14 @@ $(function() {
 					YES: function () {
 						$.ajax({
 							url: actionUrl,
-							type: 'POST',
-							data: $("#frmAddProduct").serialize(),
+							type: formType,
+							data: formData,
+							processData: false,
+							contentType: false,
+							cache: false,
+							async: false,
 							success: function(data) {
-								var obj = JSON.parse(data);
+								var obj = data;
 								
 								if(obj.flag === 0){
 									$.alert({
@@ -93,7 +97,153 @@ $(function() {
 		});
 	}
 
-	function editProduct(){
+	function addNewsAndArticles(){
+		$("#frmAddNews").submit(function(e) {
+			//prevent Default functionality
+			e.preventDefault();
+			
+			//get the action-url of the form
+			var actionUrl = e.currentTarget.action;
+			
+			$.confirm({
+				title: 'Confirmation!',
+				content: 'Are you sure you want to add this news or article?',
+				useBootstrap: false, 
+				theme: 'supervan',
+				buttons: {
+					NO: function () {
+						//do nothing
+					},
+					YES: function () {
+						$.ajax({
+							url: actionUrl,
+							type: 'POST',
+							data: $("#frmAddNews").serialize(),
+							success: function(data) {
+								var obj = data;
+								
+								if(obj.flag === 0){
+									$.alert({
+										title: "Oops! We're sorry!",
+										content: obj.msg,
+										useBootstrap: false,
+										theme: 'supervan',
+										buttons: {
+											'Ok, Got It!': function () {
+												//do nothing
+											}
+										}
+									});
+								}else{
+									$.alert({
+										title: 'Success!',
+										content: obj.msg,
+										useBootstrap: false,
+										theme: 'supervan',
+										buttons: {
+											'Ok, Got It!': function () {
+												location.replace(base_url());
+											}
+										}
+									});
+								}
+							},
+							error: function(xhr, status, error){
+								var errorMessage = xhr.status + ': ' + xhr.statusText;
+								$.alert({
+									title: "Oops! We're sorry!",
+									content: errorMessage,
+									useBootstrap: false,
+									theme: 'supervan',
+									buttons: {
+										'Ok, Got It!': function () {
+											//do nothing
+										}
+									}
+								});
+							}
+						});
+						
+					}
+				}
+			});
+		});
+	}
+
+	function addAnnouncement(){
+		$("#frmAddAnnouncement").submit(function(e) {
+			//prevent Default functionality
+			e.preventDefault();
+			
+			//get the action-url of the form
+			var actionUrl = e.currentTarget.action;
+			
+			$.confirm({
+				title: 'Confirmation!',
+				content: 'Are you sure you want to add this announcement?',
+				useBootstrap: false, 
+				theme: 'supervan',
+				buttons: {
+					NO: function () {
+						//do nothing
+					},
+					YES: function () {
+						$.ajax({
+							url: actionUrl,
+							type: 'POST',
+							data: $("#frmAddAnnouncement").serialize(),
+							success: function(data) {
+								var obj = data;
+								
+								if(obj.flag === 0){
+									$.alert({
+										title: "Oops! We're sorry!",
+										content: obj.msg,
+										useBootstrap: false,
+										theme: 'supervan',
+										buttons: {
+											'Ok, Got It!': function () {
+												//do nothing
+											}
+										}
+									});
+								}else{
+									$.alert({
+										title: 'Success!',
+										content: obj.msg,
+										useBootstrap: false,
+										theme: 'supervan',
+										buttons: {
+											'Ok, Got It!': function () {
+												location.replace(base_url());
+											}
+										}
+									});
+								}
+							},
+							error: function(xhr, status, error){
+								var errorMessage = xhr.status + ': ' + xhr.statusText;
+								$.alert({
+									title: "Oops! We're sorry!",
+									content: errorMessage,
+									useBootstrap: false,
+									theme: 'supervan',
+									buttons: {
+										'Ok, Got It!': function () {
+											//do nothing
+										}
+									}
+								});
+							}
+						});
+						
+					}
+				}
+			});
+		});
+	}
+
+	function editVenue(){
 		var productId = '';
 
 		$('.btnEditProduct').click(function(){
@@ -183,227 +333,7 @@ $(function() {
 		});
 	}
 
-	function deleteProduct(){
-		$('.btnDeleteProduct').click(function(){
-			var productId = $(this).data("id");
-
-			console.log('productId: ' + productId);
-
-			$.confirm({
-				title: 'Confirmation!',
-				content: 'Are you sure you want to delete this product?',
-				useBootstrap: false, 
-				theme: 'supervan',
-				buttons: {
-					NO: function () {
-						//do nothing
-					},
-					YES: function () {
-						$.ajax({
-							url: base_url() + 'home/delete_product?product_id=' + productId,
-							type: "POST",
-							processData: false,
-							contentType: false,
-							cache: false,
-							async: false,
-							success: function(data) {
-								var obj = JSON.parse(data);
-		
-								if(obj.flag === 0){
-									$.alert({
-										title: "Oops! We're sorry!",
-										content: obj.msg,
-										useBootstrap: false,
-										theme: 'supervan',
-										buttons: {
-											'Ok, Got It!': function () {
-												//do nothing
-											}
-										}
-									});
-								}else{
-									$.alert({
-										title: 'Success!',
-										content: obj.msg,
-										useBootstrap: false,
-										theme: 'supervan',
-										buttons: {
-											'Ok, Got It!': function () {
-												location.replace(base_url());
-											}
-										}
-									});
-								}
-							},
-							error: function(xhr, status, error){
-								var errorMessage = xhr.status + ': ' + xhr.statusText;
-								$.alert({
-									title: "Oops! We're sorry!",
-									content: errorMessage,
-									useBootstrap: false,
-									theme: 'supervan',
-									buttons: {
-										'Ok, Got It!': function () {
-											//do nothing
-										}
-									}
-								});
-							 }
-						});
-					}
-				}
-			});
-		});
-	}
-
-	function addOrder(){
-		$("#frmAddOrder").submit(function(e) {
-			//prevent Default functionality
-			e.preventDefault();
-			
-			//get the action-url of the form
-			var actionUrl = e.currentTarget.action;
-			
-			$.confirm({
-				title: 'Confirmation!',
-				content: 'Are you sure you want to add this order?',
-				useBootstrap: false, 
-				theme: 'supervan',
-				buttons: {
-					NO: function () {
-						//do nothing
-					},
-					YES: function () {
-						$.ajax({
-							url: actionUrl,
-							type: 'POST',
-							data: $("#frmAddOrder").serialize(),
-							success: function(data) {
-								var obj = JSON.parse(data);
-								
-								if(obj.flag === 0){
-									$.alert({
-										title: "Oops! We're sorry!",
-										content: obj.msg,
-										useBootstrap: false,
-										theme: 'supervan',
-										buttons: {
-											'Ok, Got It!': function () {
-												//do nothing
-											}
-										}
-									});
-								}else{
-									$.alert({
-										title: 'Success!',
-										content: obj.msg,
-										useBootstrap: false,
-										theme: 'supervan',
-										buttons: {
-											'Ok, Got It!': function () {
-												location.replace(base_url());
-											}
-										}
-									});
-								}
-							},
-							error: function(xhr, status, error){
-								var errorMessage = xhr.status + ': ' + xhr.statusText;
-								$.alert({
-									title: "Oops! We're sorry!",
-									content: errorMessage,
-									useBootstrap: false,
-									theme: 'supervan',
-									buttons: {
-										'Ok, Got It!': function () {
-											//do nothing
-										}
-									}
-								});
-							}
-						});
-						
-					}
-				}
-			});
-		});
-	}
-	
-	function approveOrder(){
-		$('.btnApproveOrder').click(function(){
-			var orderId = $(this).data("id");
-
-			console.log('orderId: ' + orderId);
-
-			$.confirm({
-				title: 'Confirmation!',
-				content: 'Are you sure you want to approve this pending order?',
-				useBootstrap: false, 
-				theme: 'supervan',
-				buttons: {
-					NO: function () {
-						//do nothing
-					},
-					YES: function () {
-						$.ajax({
-							url: base_url() + 'home/approve_pending_order?order_id=' + orderId,
-							type: "POST",
-							processData: false,
-							contentType: false,
-							cache: false,
-							async: false,
-							success: function(data) {
-								var obj = JSON.parse(data);
-		
-								if(obj.flag === 0){
-									$.alert({
-										title: "Oops! We're sorry!",
-										content: obj.msg,
-										useBootstrap: false,
-										theme: 'supervan',
-										buttons: {
-											'Ok, Got It!': function () {
-												//do nothing
-											}
-										}
-									});
-								}else{
-									$.alert({
-										title: 'Success!',
-										content: obj.msg,
-										useBootstrap: false,
-										theme: 'supervan',
-										buttons: {
-											'Ok, Got It!': function () {
-												location.replace(base_url());
-											}
-										}
-									});
-								}
-							},
-							error: function(xhr, status, error){
-								var errorMessage = xhr.status + ': ' + xhr.statusText;
-								$.alert({
-									title: "Oops! We're sorry!",
-									content: errorMessage,
-									useBootstrap: false,
-									theme: 'supervan',
-									buttons: {
-										'Ok, Got It!': function () {
-											//do nothing
-										}
-									}
-								});
-							 }
-						});
-						
-					}
-				}
-			});
-		});
-	}
-
-	function declineOrder(){
+	function deleteVenue(){
 		$('.btnDeclineOrder').click(function(){
 			var orderId = $(this).data("id");
 			console.log('orderId: ' + orderId);
@@ -476,23 +406,26 @@ $(function() {
 		});
 	}
 
-	$('#frmAddProduct').parsley().on('field:validated', function() {
+	$('#frmAddEvent').parsley().on('field:validated', function() {
 		var ok = $('.parsley-error').length === 0;
 	});
 
-	$('#frmEditProduct').parsley().on('field:validated', function() {
+	$('#frmAddNews').parsley().on('field:validated', function() {
 		var ok = $('.parsley-error').length === 0;
 	});
 
-	$('#frmAddOrder').parsley().on('field:validated', function() {
-		var ok = $('.parsley-error').length === 0;
-	});
+	// $('#frmAddOrder').parsley().on('field:validated', function() {
+	// 	var ok = $('.parsley-error').length === 0;
+	// });
 
-	addProduct();
-	editProduct();
-	deleteProduct();
+	addEvent();
+	addNewsAndArticles();
+	addAnnouncement();
+	
+	//editProduct();
+	//deleteProduct();
 
-	addOrder();
-	approveOrder();
-	declineOrder();
+	// addOrder();
+	// approveOrder();
+	// declineOrder();
 });

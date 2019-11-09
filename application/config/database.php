@@ -80,7 +80,7 @@ $db['default'] = array(
 	// 'username' => 'root',
 	// 'password' => '',
 	// 'database' => 'coc_db',
-
+	
 	'hostname' => 'localhost',
 	'username' => 'u191444882_coc_admin',
 	'password' => 'cochack90',

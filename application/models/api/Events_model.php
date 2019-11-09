@@ -40,6 +40,7 @@ class Events_model extends CI_Model {
 				'event_details' 	=> $data['event_details'],
 				'event_venue' 		=> $data['event_venue'],
 				'event_schedule' 	=> $data['event_schedule'],
+				'event_fee'			=> $data['event_fee'],
 				'created_by' 		=> $data['created_by']
 			);
 			

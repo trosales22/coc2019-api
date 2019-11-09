@@ -43,12 +43,14 @@ class News extends REST_Controller {
 		try{
 			$success  = 0;
 			$msg = array();
+			$session_data = $this->session->userdata('logged_in');
+
 			$news_params = array(
 				'news_caption'		=> trim($this->input->post('news_caption')),
 				'news_url'			=> trim($this->input->post('news_url')),
-				'created_by'		=> trim($this->input->post('created_by'))
+				'created_by'       	=> $session_data['user_id']
 			);
-
+			
 			if(EMPTY($news_params['news_url']))
 				throw new Exception("News URL is required.");
 			
