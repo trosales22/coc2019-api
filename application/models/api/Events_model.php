@@ -15,7 +15,7 @@ class Events_model extends CI_Model {
 			SELECT 
 				A.event_id, A.event_name, A.event_details,
 				IF( ISNULL(C.event_img), '', CONCAT('" . base_url() . "uploads/events/', C.event_img) ) as event_image,
-				A.event_venue, A.event_schedule,
+				A.event_venue, A.event_schedule, A.event_fee,
 				B.user_id, B.firstname, B.lastname, 
 				DATE_FORMAT(A.created_date, '%M %d, %Y %r') as event_created_date
 			FROM 

@@ -4,9 +4,12 @@ require APPPATH . 'libraries/REST_Controller.php';
 class Payment extends REST_Controller {
 	public function __construct() {
 		parent::__construct();
+		$this->load->helper('url', 'form');
+		$this->load->library('session');
 		$this->load->database();
+		$this->load->model('api/Payment_model', 'payment_model');
 	}
-
+	
 	private function _generatePIN($digits = 8) {
 		$i = 0; //counter
 		$pin = ""; //our default pin is blank.
@@ -25,10 +28,18 @@ class Payment extends REST_Controller {
 			$token 		= '2c1816316e65dbfcb0c34a25f3d6fe5589aef65d';
 			$amount 	= trim($this->get('amount'));
 			$txn_id 	= $this->_generatePIN();
+			$event_id  	= trim($this->get('event_id'));
+			$user_id	= trim($this->get('user_id'));
 			$digest 	= sha1($amount . $txn_id . $token);
 
 			if(EMPTY($amount))
 				throw new Exception("Amount is required.");
+
+			if(EMPTY($event_id))
+				throw new Exception("Event ID is required.");
+
+			if(EMPTY($user_id))
+				throw new Exception("User ID is required.");
 
 			if(EMPTY($txn_id))
 				throw new Exception("TXN ID is required.");
@@ -127,5 +138,45 @@ class Payment extends REST_Controller {
 		}
 
 		$this->response(json_decode($response));
+	}
+
+	public function add_payment_post(){
+		try{
+			$success  = 0;
+			$msg = array();
+			$payment_params = array(
+				'payment_ref_number'	=> trim($this->input->post('payment_ref_number')),
+				'event_id'				=> trim($this->input->post('event_id')),
+				'user_id'				=> trim($this->input->post('user_id'))
+			);
+
+			if(EMPTY($payment_params['payment_ref_number']))
+				throw new Exception("Payment Reference Number is required.");
+			
+			if(EMPTY($payment_params['event_id']))
+				throw new Exception("Event ID is required.");
+
+			if(EMPTY($payment_params['user_id']))
+				throw new Exception("User ID is required.");
+
+			$this->payment_model->add_payment($payment_params);
+			$success  = 1;
+		}catch (Exception $e){
+			$msg = $e->getMessage();      
+		}
+
+		if($success == 1){
+			$response = [
+				'msg'       => 'News was successfully added!',
+				'flag'      => $success
+			];
+		}else{
+			$response = [
+				'msg'       => $msg,
+				'flag'      => $success
+			];
+		}
+
+		$this->response($response);
 	}
 }
