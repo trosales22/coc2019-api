@@ -91,4 +91,19 @@ class Users_model extends CI_Model {
 			$this->db->trans_rollback();
 		}
 	}
+
+	public function get_hackers(){
+		$query = "
+			SELECT 
+				user_id, username, email, contact_number, 
+				CONCAT(firstname, ' ', lastname) as fullname,
+				IF(gender = 'M', 'Male', 'Female') as gender,
+				IF(active_flag = 'Y', 'ACTIVE', 'INACTIVE') as status,
+				DATE_FORMAT(created_date, '%M %d, %Y %r') as date_registered
+			FROM 
+				users";
+		
+		$stmt = $this->db->query($query);
+		return $stmt->result();
+	}
 }

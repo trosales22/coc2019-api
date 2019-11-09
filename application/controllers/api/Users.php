@@ -193,4 +193,28 @@ class Users extends REST_Controller {
 		
 		$this->response($response);
 	}
+
+	public function get_hackers_get(){
+		try{
+			$success        = 0;
+
+			$hackers_list = $this->users_model->get_hackers();
+			$success  = 1;
+		}catch (Exception $e){
+			$msg = $e->getMessage();
+		}
+
+		if($success == 1){
+			$response = [
+			  'hackers_list' => $hackers_list
+			];
+		}else{
+			$response = [
+				'msg'       => $msg,
+				'flag'      => $success
+			];
+		}
+		
+		$this->response($response);
+	}
 }

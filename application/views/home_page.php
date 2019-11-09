@@ -46,6 +46,59 @@
 
 				<?php include 'pages/topbar.php';?>
 				
+				<!-- Begin Hackers -->
+        <div class="container-fluid">
+          <!-- Page Heading -->
+          <h1 class="h3 mb-2 text-gray-800">Hackers</h1>
+
+          <div class="card shadow mb-4">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="tbl_hackers" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+											<th>Name</th>
+											<th>Username</th>
+                      <th>Email</th>
+											<th>Contact Number</th>
+											<th>Gender</th>
+											<th>Status</th>
+											<th>Date Registered</th>
+                    </tr>
+                  </thead>
+                  
+                  <tbody>
+									<?php foreach($hackers as $hacker){?>
+											<tr>
+												<td><?php echo $hacker->fullname; ?></td>
+												<td><?php echo $hacker->username; ?></td>
+												<td><?php echo $hacker->email; ?></td>
+												<td><?php echo $hacker->contact_number; ?></td>
+												<td><?php echo $hacker->gender; ?></td>
+												<td><?php echo $hacker->status; ?></td>
+												<td><?php echo $hacker->date_registered; ?></td>
+											</tr>
+                     <?php }?>
+                  </tbody>
+										
+                  <tfoot>
+                    <tr>
+											<th>Name</th>
+											<th>Username</th>
+                      <th>Email</th>
+											<th>Contact Number</th>
+											<th>Gender</th>
+											<th>Status</th>
+											<th>Date Registered</th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+				<!-- End Events -->
+
         <!-- Begin Events -->
         <div class="container-fluid">
           <!-- Page Heading -->

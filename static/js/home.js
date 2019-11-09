@@ -11,6 +11,7 @@ $(function() {
 		return url;
 	}
 
+	$('#tbl_hackers').DataTable();
 	$('#tbl_events').DataTable();
 	$('#tbl_announcements').DataTable();
 	$('#tbl_news').DataTable();
@@ -414,18 +415,11 @@ $(function() {
 		var ok = $('.parsley-error').length === 0;
 	});
 
-	// $('#frmAddOrder').parsley().on('field:validated', function() {
-	// 	var ok = $('.parsley-error').length === 0;
-	// });
+	$('#frmAddAnnouncement').parsley().on('field:validated', function() {
+		var ok = $('.parsley-error').length === 0;
+	});
 
 	addEvent();
 	addNewsAndArticles();
 	addAnnouncement();
-	
-	//editProduct();
-	//deleteProduct();
-
-	// addOrder();
-	// approveOrder();
-	// declineOrder();
 });
