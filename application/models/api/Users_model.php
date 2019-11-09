@@ -82,7 +82,7 @@ class Users_model extends CI_Model {
 			
 			$user_role_fields = array(
 				'user_id'	=> $lastInsertedId,
-				'role_code'	=> 'CUSTOMER'
+				'role_code'	=> 'HACKER'
 			);
 
 			$this->db->insert('user_roles', $user_role_fields);
