@@ -168,7 +168,7 @@ class Payment extends REST_Controller {
 
 		if($success == 1){
 			$response = [
-				'msg'       => 'News was successfully added!',
+				'msg'       => 'Payment was successfully added!',
 				'flag'      => $success
 			];
 		}else{
@@ -178,6 +178,42 @@ class Payment extends REST_Controller {
 			];
 		}
 
+		$this->response($response);
+	}
+
+	public function get_payments_get(){
+		try{
+			$success       	 	= 0;
+			$payment_id			= trim($this->get('payment_id'));
+			$reference_number 	= trim($this->get('reference_number'));
+			$user_id			= trim($this->get('user_id'));
+
+			if(EMPTY($user_id))
+				throw new Exception("User ID is required.");
+			
+			$payment_params = array(
+				'payment_id'				=> $payment_id,
+				'payment_reference_number' 	=> $reference_number,
+				'user_id'					=> $user_id,
+			);
+			
+			$payments_list = $this->payment_model->get_payments($payment_params);
+			$success  = 1;
+		}catch (Exception $e){
+			$msg = $e->getMessage();      
+		}
+
+		if($success == 1){
+			$response = [
+			  'payments_list' => $payments_list
+			];
+		}else{
+			$response = [
+				'msg'       => $msg,
+				'flag'      => $success
+			];
+		}
+	  
 		$this->response($response);
 	}
 }
