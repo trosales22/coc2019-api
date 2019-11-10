@@ -96,16 +96,16 @@ class Users_model extends CI_Model {
 		$params = array('HACKER');
 		$query = "
 			SELECT 
-				user_id, username, email, contact_number, 
-				CONCAT(firstname, ' ', lastname) as fullname,
-				IF(gender = 'M', 'Male', 'Female') as gender,
-				IF(active_flag = 'Y', 'ACTIVE', 'INACTIVE') as status,
-				DATE_FORMAT(created_date, '%M %d, %Y %r') as date_registered
+				A.user_id, A.username, A.email, A.contact_number, 
+				CONCAT(A.firstname, ' ', A.lastname) as fullname,
+				IF(A.gender = 'M', 'Male', 'Female') as gender,
+				IF(A.active_flag = 'Y', 'ACTIVE', 'INACTIVE') as status,
+				DATE_FORMAT(A.created_date, '%M %d, %Y %r') as date_registered
 			FROM 
 				users A
 			LEFT JOIN 
 				user_roles B ON A.user_id = B.user_id 
-			WHERE role_code = ?";
+			WHERE B.role_code = ?";
 		
 		$stmt = $this->db->query($query, $params);
 		return $stmt->result();
