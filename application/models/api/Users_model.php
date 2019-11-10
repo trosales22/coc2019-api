@@ -93,6 +93,7 @@ class Users_model extends CI_Model {
 	}
 
 	public function get_hackers(){
+		$params = array('HACKER');
 		$query = "
 			SELECT 
 				user_id, username, email, contact_number, 
@@ -101,9 +102,12 @@ class Users_model extends CI_Model {
 				IF(active_flag = 'Y', 'ACTIVE', 'INACTIVE') as status,
 				DATE_FORMAT(created_date, '%M %d, %Y %r') as date_registered
 			FROM 
-				users";
+				users A
+			LEFT JOIN 
+				user_roles B ON A.user_id = B.user_id 
+			WHERE role_code = ?";
 		
-		$stmt = $this->db->query($query);
+		$stmt = $this->db->query($query, $params);
 		return $stmt->result();
 	}
 }
