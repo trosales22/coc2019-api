@@ -53,7 +53,22 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+	//define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+
+$local_servers = array('localhost');
+$isLocal = in_array($_SERVER['SERVER_NAME'], $local_servers);
+
+if ($isLocal) {
+	$env = 'local';
+} else {
+	if(strpos($_SERVER['SERVER_NAME'], 'tristanrosales.com') !== false){
+		$env = 'development';
+	}else{
+		$env = 'production';
+	}
+}
+
+define('ENVIRONMENT', $env);
 
 /*
  *---------------------------------------------------------------
@@ -63,8 +78,8 @@
  * Different environments will require different levels of error reporting.
  * By default development will show errors but testing and live will hide them.
  */
-switch (ENVIRONMENT)
-{
+switch (ENVIRONMENT){
+	case 'local':
 	case 'development':
 		error_reporting(-1);
 		ini_set('display_errors', 1);

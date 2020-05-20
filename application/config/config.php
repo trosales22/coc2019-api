@@ -38,7 +38,15 @@ if (!EMPTY($_SERVER['HTTPS']) AND $_SERVER['HTTPS'] != 'off'){
 $base_url_str 		= '';
 
 if( ISSET( $_SERVER['HTTP_HOST'] ) ){
-	$base_url_str 	= $http_request.'://'.$_SERVER['HTTP_HOST'].'/';
+	switch (ENVIRONMENT){
+		case 'local':
+			$base_url_str 	= $http_request.'://'.$_SERVER['HTTP_HOST'].'/coc2019-api/';
+		break;
+		case 'development':
+		case 'production':
+			$base_url_str 	= $http_request.'://'.$_SERVER['HTTP_HOST'].'/';
+		break;
+	}
 }
 
 $config['base_url'] = $base_url_str;
@@ -53,7 +61,7 @@ $config['base_url'] = $base_url_str;
 | variable so that it is blank.
 |
 */
-$config['index_page'] = '';
+$config['index_page'] = 'index.php';
 
 /*
 |--------------------------------------------------------------------------

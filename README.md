@@ -1,10 +1,15 @@
-## Clash Of Codes (API)
+## Clash Of Codes 2019 (API)
 
-## Tools
+- Challenge:
+1. Create a website or mobile app for Clash Of Codes event with membership and event management system.
+2. Integrate TXTBOX Platform (SMS API)
+3. Integrate MECOM Platform (Payment API)
+4. Create a back-end or admin panel to manage all member and events.
 
--PHP CodeIgniter<br>
--MySQL<br>
--RESTful API<br>
+## Tech Stack
+
+- PHP CodeIgniter (RESTful)
+- MySQL
 
 ## Server Requirements
 

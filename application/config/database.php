@@ -73,19 +73,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
+switch (ENVIRONMENT){
+	case 'local':
+		$DB_HOST = 'localhost';
+		$DB_NAME = 'db_coc2019';
+		$DB_USER = 'root';
+		$DB_PASS = 'root';
+	break;
+	case 'development':
+	case 'production':
+		$DB_HOST = 'localhost';
+		$DB_NAME = 'u191444882_clash_of_codes';
+		$DB_USER = 'u191444882_coc_admin';
+		$DB_PASS = 'cochack90';
+	break;
+}
+
 $db['default'] = array(
 	'dsn'	=> '',
-
-	// 'hostname' => 'localhost',
-	// 'username' => 'root',
-	// 'password' => '',
-	// 'database' => 'coc_db',
-
-	'hostname' => 'localhost',
-	'username' => 'u191444882_coc_admin',
-	'password' => 'cochack90',
-	'database' => 'u191444882_clash_of_codes',
-
+	'hostname' => $DB_HOST,
+	'username' => $DB_USER,
+	'password' => $DB_PASS,
+	'database' => $DB_NAME,
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
