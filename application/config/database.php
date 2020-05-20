@@ -82,10 +82,10 @@ switch (ENVIRONMENT){
 	break;
 	case 'development':
 	case 'production':
-		$DB_HOST = 'localhost';
-		$DB_NAME = 'u191444882_clash_of_codes';
-		$DB_USER = 'u191444882_coc_admin';
-		$DB_PASS = 'cochack90';
+		$DB_HOST = getenv('DB_HOST');
+		$DB_NAME = getenv('DB_NAME');
+		$DB_USER = getenv('DB_USER');
+		$DB_PASS = getenv('DB_PASS');
 	break;
 }
 
