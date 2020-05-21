@@ -13,8 +13,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="icon" type="image/png" href="<?php echo base_url(); ?>static/images/jasper_jean.ico"/>
-  <meta name="description" content="Jasper Jean - We Transport People.">
+  <meta name="description" content="Clash Of Codes 2019 Hackathon">
   <meta name="author" content="Tristan Rosales">
 
   <title>Clash Of Codes - Dashboard</title>
